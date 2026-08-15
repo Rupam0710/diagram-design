@@ -18,7 +18,7 @@ BUILD_ICONS = ROOT / "scripts/build-icons.py"
 MOTION_TEMPLATE = ROOT / "skills/diagram-design/assets/template-motion.html"
 
 VALID_SVG = """\
-<svg xmlns="http://www.w3.org/2000/svg" role="img"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img"
      aria-labelledby="fixture-title fixture-desc">
   <title id="fixture-title">Fixture diagram</title>
   <desc id="fixture-desc">Diagram showing a fixture connected to a result.</desc>
@@ -154,6 +154,24 @@ def main() -> int:
             "duplicate-naming-ids",
             VALID_SVG + VALID_SVG,
             'duplicate accessible-name id="fixture-desc" is not allowed',
+            directory,
+        )
+        require_failure(
+            "missing-viewbox",
+            VALID_SVG.replace(' viewBox="0 0 800 600"', ""),
+            "diagram <svg> must have a viewBox attribute",
+            directory,
+        )
+        require_failure(
+            "invalid-viewbox",
+            VALID_SVG.replace('viewBox="0 0 800 600"', 'viewBox="0 0 -10 100"'),
+            'viewBox "0 0 -10 100" is not valid (expected "min-x min-y width height" with positive size)',
+            directory,
+        )
+        require_failure(
+            "title-too-long",
+            VALID_SVG.replace("Fixture diagram", "A" * 61),
+            "<title> must be 60 characters or fewer (got 61)",
             directory,
         )
         require_pass(

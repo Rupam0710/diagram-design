@@ -349,6 +349,25 @@ def lint_accessible_svgs(text, expected_slug, allow_template_placeholders=False)
         if (svg.attrs.get("role") or "").casefold() != "img":
             add(svg.line, svg.offset, 'diagram <svg> must carry role="img"')
 
+        viewbox = svg.attrs.get("viewbox")  # HTMLParser lowercases all attribute names
+        if not viewbox:
+            add(svg.line, svg.offset, "diagram <svg> must have a viewBox attribute")
+        else:
+            parts = viewbox.split()
+            valid = False
+            if len(parts) == 4:
+                try:
+                    nums = [float(p) for p in parts]
+                    valid = nums[2] > 0 and nums[3] > 0
+                except ValueError:
+                    pass
+            if not valid:
+                add(
+                    svg.line,
+                    svg.offset,
+                    f'viewBox "{viewbox}" is not valid (expected "min-x min-y width height" with positive size)',
+                )
+
         labelled_by = (svg.attrs.get("aria-labelledby") or "").split()
         accessible_name_ids = labelled_by + [
             element.element_id
@@ -402,8 +421,15 @@ def lint_accessible_svgs(text, expected_slug, allow_template_placeholders=False)
                     title.offset,
                     "<title> must be the first child element of <svg>",
                 )
-            if not "".join(title.text).strip():
+            title_text = "".join(title.text).strip()
+            if not title_text:
                 add(title.line, title.offset, "<title> must not be empty")
+            elif len(title_text) > 60:
+                add(
+                    title.line,
+                    title.offset,
+                    f"<title> must be 60 characters or fewer (got {len(title_text)})",
+                )
 
         if description is None:
             add(svg.line, svg.offset, "diagram <svg> must contain a <desc>")

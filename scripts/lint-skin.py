@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import math
 import re
 import sys
 from dataclasses import dataclass, field
@@ -353,12 +354,16 @@ def lint_accessible_svgs(text, expected_slug, allow_template_placeholders=False)
         if not viewbox:
             add(svg.line, svg.offset, "diagram <svg> must have a viewBox attribute")
         else:
-            parts = viewbox.split()
+            parts = re.split(r"[\s,]+", viewbox.strip())
             valid = False
             if len(parts) == 4:
                 try:
                     nums = [float(p) for p in parts]
-                    valid = nums[2] > 0 and nums[3] > 0
+                    valid = (
+                        all(math.isfinite(n) for n in nums)
+                        and nums[2] > 0
+                        and nums[3] > 0
+                    )
                 except ValueError:
                     pass
             if not valid:

@@ -175,6 +175,29 @@ def main() -> int:
             directory,
         )
         require_pass(
+            "viewbox-comma-separated",
+            VALID_SVG.replace('viewBox="0 0 800 600"', 'viewBox="0,0,800,600"').replace(
+                "fixture-title", "viewbox-comma-separated-title"
+            ).replace("fixture-desc", "viewbox-comma-separated-desc"),
+            directory,
+        )
+        require_failure(
+            "viewbox-nonfinite-width",
+            VALID_SVG.replace('viewBox="0 0 800 600"', 'viewBox="0 0 inf 600"').replace(
+                "fixture-title", "viewbox-nonfinite-width-title"
+            ).replace("fixture-desc", "viewbox-nonfinite-width-desc"),
+            'viewBox "0 0 inf 600" is not valid (expected "min-x min-y width height" with positive size)',
+            directory,
+        )
+        require_failure(
+            "viewbox-nonfinite-height",
+            VALID_SVG.replace('viewBox="0 0 800 600"', 'viewBox="0 0 800 inf"').replace(
+                "fixture-title", "viewbox-nonfinite-height-title"
+            ).replace("fixture-desc", "viewbox-nonfinite-height-desc"),
+            'viewBox "0 0 800 inf" is not valid (expected "min-x min-y width height" with positive size)',
+            directory,
+        )
+        require_pass(
             "decorative",
             '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
             '<path d="M0 0h1v1z"/></svg>\n',

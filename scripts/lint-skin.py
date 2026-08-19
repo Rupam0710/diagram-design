@@ -356,7 +356,8 @@ def lint_accessible_svgs(text, expected_slug, allow_template_placeholders=False)
         else:
             parts = re.split(r"[\s,]+", viewbox.strip())
             valid = False
-            if len(parts) == 4:
+            _svg_num_re = re.compile(r"^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$")
+            if len(parts) == 4 and all(_svg_num_re.match(p) for p in parts):
                 try:
                     nums = [float(p) for p in parts]
                     valid = (

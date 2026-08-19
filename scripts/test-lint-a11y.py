@@ -197,6 +197,14 @@ def main() -> int:
             'viewBox "0 0 800 inf" is not valid (expected "min-x min-y width height" with positive size)',
             directory,
         )
+        require_failure(
+            "viewbox-underscore-width",
+            VALID_SVG.replace('viewBox="0 0 800 600"', 'viewBox="0 0 1_000 600"').replace(
+                "fixture-title", "viewbox-underscore-width-title"
+            ).replace("fixture-desc", "viewbox-underscore-width-desc"),
+            'viewBox "0 0 1_000 600" is not valid (expected "min-x min-y width height" with positive size)',
+            directory,
+        )
         require_pass(
             "decorative",
             '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'

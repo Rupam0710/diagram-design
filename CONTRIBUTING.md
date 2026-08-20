@@ -51,6 +51,8 @@ The helper refuses to run if the Claude and Codex versions already differ. If an
 | draw.io import path (real extractor vs fixtures + docs sync) | `python3 scripts/verify-drawio-import.py` |
 | Mermaid import path (grammars, adversarial input, caps, docs sync) | `python3 scripts/verify-mermaid-import.py` |
 | Optional motion contract (fallbacks, controls, budgets, determinism) | `python3 scripts/test-verify-motion.py` |
+| Doctor diagnostics contract (env checks, script presence, routing wiring) | `python3 scripts/verify-doctor.py` |
+| Doctor diagnostics adversarial tests | `python3 scripts/test-verify-doctor.py` |
 | Every shipped motion template/example | `python3 scripts/verify-motion.py --shipped` |
 | Docs/routing sync (description hooks, gallery, README tree, reference links, profile surfaces) | `python3 scripts/verify-docs-sync.py && python3 scripts/test-verify-docs-sync.py` |
 | Packaged output self-check behaves (pass + adversarial cases) | `python3 scripts/test-self-check.py` |
@@ -75,6 +77,8 @@ python3 scripts/test-plugin-package.py \
   && python3 scripts/verify-drawio-import.py \
   && python3 scripts/verify-mermaid-import.py \
   && python3 scripts/test-verify-motion.py \
+  && python3 scripts/verify-doctor.py \
+  && python3 scripts/test-verify-doctor.py \
   && python3 scripts/verify-docs-sync.py \
   && python3 scripts/test-verify-docs-sync.py \
   && python3 scripts/test-self-check.py \

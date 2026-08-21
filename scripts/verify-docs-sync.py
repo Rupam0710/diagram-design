@@ -147,7 +147,7 @@ def check_gallery(errors: list[str]) -> None:
         if f"example-{name}.html" not in on_disk:
             errors.append(f"gallery tab {name!r} points at a missing example-{name}.html")
     # Detect duplicate eyebrow numbers (display labels on each tab button).
-    seen_eyebrows: dict[str, int] = {}
+    seen_eyebrows: set[str] = set()
     for m in re.finditer(r'<span class="eyebrow">(\d+)</span>', source):
         num = m.group(1)
         if num in seen_eyebrows:
@@ -156,7 +156,7 @@ def check_gallery(errors: list[str]) -> None:
                 "check tab order in assets/index.html"
             )
         else:
-            seen_eyebrows[num] = m.start()
+            seen_eyebrows.add(num)
     # Detect data-single types so we can skip the three-variant check for them.
     single_types: set[str] = set()
     for btn in re.finditer(r"<button[^>]+>", source):

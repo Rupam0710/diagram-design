@@ -421,10 +421,11 @@ diagram-design/
 
     # ── gallery guard tests ───────────────────────────────────────────────────
     # Helper: build a minimal gallery HTML with arbitrary tab markup.
-    def make_tab(type_name: str, eyebrow: str, *, single: bool = False) -> str:
+    def make_tab(type_name: str, eyebrow: str, *, single: bool = False, parent: str | None = None) -> str:
         single_attr = " data-single" if single else ""
+        parent_attr = f' data-parent-type="{parent}"' if parent else ""
         return (
-            f'<button class="tab" data-type="{type_name}"{single_attr}>'
+            f'<button class="tab" data-type="{type_name}"{single_attr}{parent_attr}>'
             f'<span class="eyebrow">{eyebrow}</span>{type_name}</button>'
         )
 
@@ -503,10 +504,34 @@ diagram-design/
             raise AssertionError(f"complete tab raised unexpected error: {errs}")
         print("OK gallery: complete non-single tab passes")
 
+        line_trio = ["example-line.html", "example-line-dark.html", "example-line-full.html"]
+        ridge_trio = ["example-ridgeline.html", "example-ridgeline-dark.html", "example-ridgeline-full.html"]
+
+        # 7. Variant sharing its parent's eyebrow is allowed (no error).
+        html = make_gallery_html(make_tab("line", "20"), make_tab("ridgeline", "20", parent="line"))
+        errs = run_gallery_check(html, line_trio + ridge_trio)
+        if any("eyebrow" in e or "parent" in e for e in errs):
+            raise AssertionError(f"valid parent/variant reuse raised error: {errs}")
+        print("OK gallery: variant sharing parent eyebrow is allowed")
+
+        # 8. Variant with wrong eyebrow number is caught.
+        html = make_gallery_html(make_tab("line", "20"), make_tab("ridgeline", "99", parent="line"))
+        errs = run_gallery_check(html, line_trio + ridge_trio)
+        if not any("ridgeline" in e and "eyebrow" in e for e in errs):
+            raise AssertionError(f"variant with wrong eyebrow not caught: {errs}")
+        print("OK gallery: variant with wrong eyebrow number caught")
+
+        # 9. Variant declaring a missing parent is caught.
+        html = make_gallery_html(make_tab("ridgeline", "20", parent="line"))
+        errs = run_gallery_check(html, ridge_trio)
+        if not any("ridgeline" in e and "line" in e for e in errs):
+            raise AssertionError(f"variant with missing parent not caught: {errs}")
+        print("OK gallery: variant with missing parent caught")
+
     print(
         "PASS: docs sync checks references, strict-bundler packaging, routing surfaces, "
         "Factory install contract, type-count routing, High-Level invariants, "
-        "and gallery guards"
+        "and gallery guards (parent/variant model)"
     )
     return 0
 

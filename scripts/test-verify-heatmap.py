@@ -28,6 +28,7 @@ Exit: 0 all pass, 1 a case failed.
 from __future__ import annotations
 
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -230,8 +231,6 @@ def main() -> int:
     print(f"OK — {8 + 3} cases ({3} positive, {8} negative), all passed.")
     return 0
 
-
-import re  # noqa: E402 (needed for N6 mutation above)
 
 if __name__ == "__main__":
     sys.exit(main())

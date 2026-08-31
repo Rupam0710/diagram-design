@@ -57,6 +57,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ASSET_DIR = ROOT / "skills/diagram-design/assets"
 
 RECT_RE = re.compile(r"<rect\b(?P<attrs>[^>]*?)/?>", re.IGNORECASE)
+TEXT_RE = re.compile(r"<text\b(?P<attrs>[^>]*)>", re.IGNORECASE)
 COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 STYLE_RE = re.compile(r"<style\b[^>]*>(?P<body>.*?)</style>", re.IGNORECASE | re.DOTALL)
 RGBA_RE = re.compile(r"rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)")
@@ -88,6 +89,33 @@ def _is_accent(r: int, g: int, b: int) -> bool:
     return r >= 200 and g <= 150 and b <= 100
 
 
+def parse_axis_labels(source: str) -> tuple[list[str], list[str]]:
+    """Return (declared_rows, declared_cols) from axis-label text elements.
+
+    Rows are declared with data-row-label="name" on <text> elements (left gutter).
+    Columns are declared with data-col="name" on <text> elements (top header row).
+    The order is preserved so the grid vocabulary is stable even if cells are absent.
+    """
+    source_clean = COMMENT_RE.sub("", source)
+    declared_rows: list[str] = []
+    declared_cols: list[str] = []
+    seen_rows: set[str] = set()
+    seen_cols: set[str] = set()
+
+    for m in TEXT_RE.finditer(source_clean):
+        attrs_str = m.group("attrs")
+        row_label = _attr(attrs_str, "data-row-label")
+        col_label = _attr(attrs_str, "data-col")
+        if row_label and row_label not in seen_rows:
+            declared_rows.append(row_label)
+            seen_rows.add(row_label)
+        if col_label and col_label not in seen_cols:
+            declared_cols.append(col_label)
+            seen_cols.add(col_label)
+
+    return declared_rows, declared_cols
+
+
 def parse_cells(source: str) -> list[dict]:
     """Return list of cell dicts: row, col, value, opacity, focal."""
     source_clean = COMMENT_RE.sub("", source)
@@ -104,6 +132,8 @@ def parse_cells(source: str) -> list[dict]:
             value = float(val_str)
         except ValueError:
             continue
+        if not (0.0 <= value < 1e9) or value != value:  # reject nan/inf/negative
+            continue
 
         fill = _attr(attrs_str, "fill") or ""
         focal = _attr(attrs_str, "data-focal") == "true"
@@ -111,12 +141,18 @@ def parse_cells(source: str) -> list[dict]:
 
         rm = RGBA_RE.search(fill)
         if rm:
-            r_ch = int(rm.group(1))
-            g_ch = int(rm.group(2))
-            b_ch = int(rm.group(3))
-            opacity = float(rm.group(4))
-            if _is_accent(r_ch, g_ch, b_ch):
-                focal = True
+            try:
+                r_ch = int(rm.group(1))
+                g_ch = int(rm.group(2))
+                b_ch = int(rm.group(3))
+                opacity = float(rm.group(4))
+            except ValueError:
+                opacity = None
+            else:
+                if not (0.0 <= opacity <= 1.0):
+                    opacity = None
+                elif _is_accent(r_ch, g_ch, b_ch):
+                    focal = True
 
         cells.append({
             "row": row,
@@ -167,9 +203,19 @@ def check_file(path: Path) -> list[str]:
             "not a second data range"
         )
 
-    # Invariant 1: complete N×M grid.
-    rows = sorted(set(c["row"] for c in cells))
-    cols = sorted(set(c["col"] for c in cells))
+    # Invariant 1: complete N×M grid — use DECLARED axis labels as the vocabulary,
+    # not the cells themselves. A heatmap that silently drops an entire row or column
+    # reconstructed only from cells would shrink both actual and expected counts and
+    # pass; declared labels are the authoritative source of the grid dimensions.
+    declared_rows, declared_cols = parse_axis_labels(source)
+    if declared_rows and declared_cols:
+        rows = declared_rows
+        cols = declared_cols
+    else:
+        # Fall back to cell-derived vocabulary only when no axis labels are present.
+        rows = sorted(set(c["row"] for c in cells))
+        cols = sorted(set(c["col"] for c in cells))
+
     expected = len(rows) * len(cols)
     actual = len(cells)
 

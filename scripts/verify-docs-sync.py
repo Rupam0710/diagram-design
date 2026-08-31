@@ -41,7 +41,7 @@ README = ROOT / "README.md"
 HIGH_LEVEL_REFERENCE = ROOT / "skills/diagram-design/references/type-high-level.md"
 ONBOARDING_REFERENCE = ROOT / "skills/diagram-design/references/onboarding.md"
 VARIANTS = ("", "-dark", "-full")
-VISUAL_TYPE_COUNT = 39
+VISUAL_TYPE_COUNT = 40
 # Types whose selection-table name differs from its description vocabulary.
 DESCRIPTION_ALIASES = {
     "bar chart": "bar",

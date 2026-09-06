@@ -20,6 +20,8 @@ Negative cases (must FAIL):
   N6 — no parseable cells (data-row attribute removed from all cells).
   N7 — non-focal cell with no rgba fill.
   N8 — CSS transform present in <style> block.
+  N9 — missing axis declarations entirely.
+  N10 — undeclared row/column values in the cells.
 
 Usage: python3 scripts/test-verify-heatmap.py
 Exit: 0 all pass, 1 a case failed.
@@ -223,12 +225,33 @@ def main() -> int:
             "CSS transform property in <style>",
         )
 
+        # N9: missing axis declarations.
+        no_axis_labels = re.sub(r'\s+data-row-label="[^"]+"', '', original)
+        no_axis_labels = re.sub(r'\s+data-col="[^"]+"', '', no_axis_labels)
+        case(
+            failures, d, "N9-missing-axis-labels.html",
+            no_axis_labels, original, False,
+            "missing axis declarations",
+        )
+
+        # N10: undeclared row/column value in a cell.
+        undeclared_cell = original.replace(
+            'data-row="payments" data-col="S4" data-value="47" data-focal="true"',
+            'data-row="unknown" data-col="S4" data-value="47" data-focal="true"',
+            1,
+        )
+        case(
+            failures, d, "N10-undeclared-row-col.html",
+            undeclared_cell, original, False,
+            "undeclared row/column values",
+        )
+
     if failures:
         for f in failures:
             print("FAIL:", f, file=sys.stderr)
         return 1
 
-    print(f"OK — {8 + 3} cases ({3} positive, {8} negative), all passed.")
+    print(f"OK — {10 + 3} cases ({3} positive, {10} negative), all passed.")
     return 0
 
 

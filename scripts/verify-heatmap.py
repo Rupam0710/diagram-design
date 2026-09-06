@@ -203,18 +203,36 @@ def check_file(path: Path) -> list[str]:
             "not a second data range"
         )
 
-    # Invariant 1: complete N×M grid — use DECLARED axis labels as the vocabulary,
-    # not the cells themselves. A heatmap that silently drops an entire row or column
-    # reconstructed only from cells would shrink both actual and expected counts and
-    # pass; declared labels are the authoritative source of the grid dimensions.
+    # Invariant 1: require a declared axis vocabulary and reject any cell whose
+    # row/column are outside that vocabulary. Cell-derived fallback is intentionally
+    # not allowed here: a malformed heatmap can otherwise pass when a row or column
+    # is missing from the label axis but the remaining cells still produce a count.
     declared_rows, declared_cols = parse_axis_labels(source)
-    if declared_rows and declared_cols:
-        rows = declared_rows
-        cols = declared_cols
-    else:
-        # Fall back to cell-derived vocabulary only when no axis labels are present.
-        rows = sorted(set(c["row"] for c in cells))
-        cols = sorted(set(c["col"] for c in cells))
+    if not declared_rows or not declared_cols:
+        errors.append(
+            f"{path.name}: heatmap is missing declared row/column axis labels; "
+            "every row and column must be named via data-row-label and data-col"
+        )
+        return errors
+
+    rows = declared_rows
+    cols = declared_cols
+
+    seen_rows: set[str] = set()
+    seen_cols: set[str] = set()
+    for c in cells:
+        if c["row"] not in rows:
+            errors.append(
+                f"{path.name}: cell uses undeclared row '{c['row']}' — "
+                "every cell must map to a declared row label"
+            )
+        if c["col"] not in cols:
+            errors.append(
+                f"{path.name}: cell uses undeclared column '{c['col']}' — "
+                "every cell must map to a declared column label"
+            )
+        seen_rows.add(c["row"])
+        seen_cols.add(c["col"])
 
     expected = len(rows) * len(cols)
     actual = len(cells)

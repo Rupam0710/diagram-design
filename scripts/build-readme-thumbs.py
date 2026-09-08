@@ -65,6 +65,11 @@ def target(name: str) -> tuple[int, int]:
 
 def sha256(path: pathlib.Path) -> str:
     digest = hashlib.sha256()
+    if path.suffix in {".html", ".md", ".txt"}:
+        # Normalize text newlines so digests are stable across OS checkouts.
+        with path.open("r", encoding="utf-8", newline=None) as handle:
+            digest.update(handle.read().encode("utf-8"))
+        return digest.hexdigest()
     with path.open("rb") as handle:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)

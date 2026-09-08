@@ -40,6 +40,13 @@ def screenshot_path(slug: str) -> Path:
 
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
+    if path.suffix == ".html":
+        # Normalize source newlines so manifest digests are stable across OS checkouts.
+        with path.open("r", encoding="utf-8", newline=None) as handle:
+            text = handle.read()
+        digest.update(text.encode("utf-8"))
+        return digest.hexdigest()
+
     with path.open("rb") as handle:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)

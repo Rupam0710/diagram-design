@@ -61,6 +61,7 @@ TEXT_RE = re.compile(r"<text\b(?P<attrs>[^>]*)>", re.IGNORECASE)
 COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 STYLE_RE = re.compile(r"<style\b[^>]*>(?P<body>.*?)</style>", re.IGNORECASE | re.DOTALL)
 RGBA_RE = re.compile(r"rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)")
+HEX_RE = re.compile(r"^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")
 
 # CSS properties that can silently move a verified rect without changing its
 # x/y/width/height attributes. Declaration-start anchoring avoids false matches
@@ -87,6 +88,67 @@ def _attr(attrs_str: str, name: str) -> str | None:
 def _is_accent(r: int, g: int, b: int) -> bool:
     """Detect accent fill — warm reddish-orange. Works for both light and dark skins."""
     return r >= 200 and g <= 150 and b <= 100
+
+
+def _parse_color(color: str) -> tuple[int, int, int] | None:
+    """Parse a CSS hex or rgb/rgba color into 8-bit RGB components."""
+    value = color.strip()
+    if not value:
+        return None
+    if HEX_RE.match(value):
+        hex_value = value[1:]
+        if len(hex_value) == 3:
+            hex_value = ''.join(ch * 2 for ch in hex_value)
+        try:
+            return (
+                int(hex_value[0:2], 16),
+                int(hex_value[2:4], 16),
+                int(hex_value[4:6], 16),
+            )
+        except ValueError:
+            return None
+    rgba_match = RGBA_RE.match(value)
+    if rgba_match:
+        try:
+            return (
+                int(rgba_match.group(1)),
+                int(rgba_match.group(2)),
+                int(rgba_match.group(3)),
+            )
+        except ValueError:
+            return None
+    rgb_match = re.match(r"rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)", value, re.IGNORECASE)
+    if rgb_match:
+        try:
+            return (
+                int(rgb_match.group(1)),
+                int(rgb_match.group(2)),
+                int(rgb_match.group(3)),
+            )
+        except ValueError:
+            return None
+    return None
+
+
+def _relative_luminance(rgb: tuple[int, int, int]) -> float:
+    r, g, b = (channel / 255 for channel in rgb)
+
+    def channel_to_linear(channel: float) -> float:
+        if channel <= 0.03928:
+            return channel / 12.92
+        return ((channel + 0.055) / 1.055) ** 2.4
+
+    r_lin = channel_to_linear(r)
+    g_lin = channel_to_linear(g)
+    b_lin = channel_to_linear(b)
+    return 0.2126 * r_lin + 0.7152 * g_lin + 0.0722 * b_lin
+
+
+def _contrast_ratio(foreground: tuple[int, int, int], background: tuple[int, int, int]) -> float:
+    lum_fg = _relative_luminance(foreground)
+    lum_bg = _relative_luminance(background)
+    lighter, darker = max(lum_fg, lum_bg), min(lum_fg, lum_bg)
+    return (lighter + 0.05) / (darker + 0.05)
 
 
 def parse_axis_labels(source: str) -> tuple[list[str], list[str]]:
@@ -138,6 +200,10 @@ def parse_cells(source: str) -> list[dict]:
         fill = _attr(attrs_str, "fill") or ""
         focal = _attr(attrs_str, "data-focal") == "true"
         opacity: float | None = None
+        x = _attr(attrs_str, "x")
+        y = _attr(attrs_str, "y")
+        width = _attr(attrs_str, "width")
+        height = _attr(attrs_str, "height")
 
         rm = RGBA_RE.search(fill)
         if rm:
@@ -161,9 +227,34 @@ def parse_cells(source: str) -> list[dict]:
             "opacity": opacity,
             "focal": focal,
             "fill": fill,
+            "x": float(x) if x is not None else None,
+            "y": float(y) if y is not None else None,
+            "width": float(width) if width is not None else None,
+            "height": float(height) if height is not None else None,
         })
 
     return cells
+
+
+def parse_text_labels(source: str) -> list[dict]:
+    """Return SVG text labels with their fill, x, y, and rendered text."""
+    source_clean = COMMENT_RE.sub("", source)
+    texts: list[dict] = []
+    for m in TEXT_RE.finditer(source_clean):
+        attrs = m.group("attrs")
+        fill = _attr(attrs, "fill")
+        if not fill:
+            continue
+        x = _attr(attrs, "x")
+        y = _attr(attrs, "y")
+        text_content = re.search(r">(.*?)</text>", m.group(0), re.DOTALL)
+        texts.append({
+            "fill": fill,
+            "x": float(x) if x is not None else None,
+            "y": float(y) if y is not None else None,
+            "text": text_content.group(1).strip() if text_content else "",
+        })
+    return texts
 
 
 def check_file(path: Path) -> list[str]:
@@ -300,6 +391,32 @@ def check_file(path: Path) -> list[str]:
                 )
             prev_opacity = mean_opacity
             prev_val = val
+
+    # Require focal cell value text to maintain WCAG AA against the focal fill.
+    text_labels = parse_text_labels(source)
+    for focal in focal_cells:
+        bg_rgb = _parse_color(focal["fill"])
+        if bg_rgb is None:
+            continue
+        x0 = focal["x"] if focal["x"] is not None else 0.0
+        y0 = focal["y"] if focal["y"] is not None else 0.0
+        width = focal["width"] if focal["width"] is not None else 0.0
+        height = focal["height"] if focal["height"] is not None else 0.0
+        for text in text_labels:
+            if text["x"] is None or text["y"] is None:
+                continue
+            if not (x0 <= text["x"] <= x0 + width and y0 <= text["y"] <= y0 + height):
+                continue
+            text_rgb = _parse_color(text["fill"])
+            if text_rgb is None:
+                continue
+            ratio = _contrast_ratio(text_rgb, bg_rgb)
+            if ratio < 4.5:
+                errors.append(
+                    f"{path.name}: focal cell ({focal['row']}, {focal['col']}) has text "
+                    f"{text['text']!r} in {text['fill']} on fill {focal['fill']} "
+                    f"({ratio:.2f}:1 contrast, below WCAG AA 4.5:1)"
+                )
 
     return errors
 

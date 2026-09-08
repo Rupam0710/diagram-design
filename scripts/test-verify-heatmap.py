@@ -22,6 +22,7 @@ Negative cases (must FAIL):
   N8 — CSS transform present in <style> block.
   N9 — missing axis declarations entirely.
   N10 — undeclared row/column values in the cells.
+  N11 — focal value text fails AA contrast against the focal accent fill.
 
 Usage: python3 scripts/test-verify-heatmap.py
 Exit: 0 all pass, 1 a case failed.
@@ -216,8 +217,8 @@ def main() -> int:
 
         # N8: CSS transform in <style> block.
         css_transform = original.replace(
-            "svg { width: 100%",
-            "svg { width: 100%; transform: scale(1)",
+            "svg { display: block; width: 100%; height: auto; max-width: 100%; }",
+            "svg { display: block; width: 100%; height: auto; max-width: 100%; transform: scale(1); }",
         )
         case(
             failures, d, "N8-css-transform.html",
@@ -246,12 +247,24 @@ def main() -> int:
             "undeclared row/column values",
         )
 
+        # N11: focal value text fails AA contrast against the focal accent fill.
+        bad_focal_text = original.replace(
+            'fill="#1a1d2d" font-size="10" font-weight="600"',
+            'fill="#f5f5f5" font-size="10" font-weight="600"',
+            1,
+        )
+        case(
+            failures, d, "N11-focal-text-contrast.html",
+            bad_focal_text, original, False,
+            "focal value text fails 4.5:1 contrast on accent fill",
+        )
+
     if failures:
         for f in failures:
             print("FAIL:", f, file=sys.stderr)
         return 1
 
-    print(f"OK — {10 + 3} cases ({3} positive, {10} negative), all passed.")
+    print(f"OK — {11 + 3} cases ({3} positive, {11} negative), all passed.")
     return 0
 
 

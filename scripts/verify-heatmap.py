@@ -91,32 +91,49 @@ def _is_accent(r: int, g: int, b: int) -> bool:
 
 
 def _parse_color(color: str) -> tuple[int, int, int] | None:
-    """Parse a CSS hex or rgb/rgba color into 8-bit RGB components."""
+    """Parse a CSS hex or rgb/rgba color into the visible 8-bit RGB components.
+
+    For rgba() values with alpha < 1, blend the color against the canonical paper
+    background (#f5f5f5) to match how the SVG actually renders on screen.
+    """
     value = color.strip()
     if not value:
         return None
+
+    paper = (245, 245, 245)
+
+    def blend(rgb: tuple[int, int, int], alpha: float) -> tuple[int, int, int]:
+        if alpha >= 1.0:
+            return rgb
+        return tuple(round(c * alpha + paper[idx] * (1.0 - alpha)) for idx, c in enumerate(rgb))
+
     if HEX_RE.match(value):
         hex_value = value[1:]
         if len(hex_value) == 3:
             hex_value = ''.join(ch * 2 for ch in hex_value)
         try:
-            return (
+            rgb = (
                 int(hex_value[0:2], 16),
                 int(hex_value[2:4], 16),
                 int(hex_value[4:6], 16),
             )
+            return rgb
         except ValueError:
             return None
+
     rgba_match = RGBA_RE.match(value)
     if rgba_match:
         try:
-            return (
+            rgb = (
                 int(rgba_match.group(1)),
                 int(rgba_match.group(2)),
                 int(rgba_match.group(3)),
             )
+            alpha = float(rgba_match.group(4))
+            return blend(rgb, alpha)
         except ValueError:
             return None
+
     rgb_match = re.match(r"rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)", value, re.IGNORECASE)
     if rgb_match:
         try:

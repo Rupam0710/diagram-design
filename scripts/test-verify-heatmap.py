@@ -249,7 +249,7 @@ def main() -> int:
 
         # N11: focal value text fails AA contrast against the focal accent fill.
         bad_focal_text = original.replace(
-            'fill="#1a1d2d" font-size="10" font-weight="600"',
+            'fill="#111111" font-size="10" font-weight="600"',
             'fill="#f5f5f5" font-size="10" font-weight="600"',
             1,
         )

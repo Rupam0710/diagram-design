@@ -81,7 +81,7 @@ CSS_MOVES_MARK_RE = re.compile(
 
 
 def _attr(attrs_str: str, name: str) -> str | None:
-    m = re.search(r'\b' + re.escape(name) + r'\s*=\s*"([^"]*)"', attrs_str)
+    m = re.search(r"\b" + re.escape(name) + r'\s*=\s*"([^"]*)"', attrs_str)
     return m.group(1) if m else None
 
 
@@ -105,12 +105,14 @@ def _parse_color(color: str) -> tuple[int, int, int] | None:
     def blend(rgb: tuple[int, int, int], alpha: float) -> tuple[int, int, int]:
         if alpha >= 1.0:
             return rgb
-        return tuple(round(c * alpha + paper[idx] * (1.0 - alpha)) for idx, c in enumerate(rgb))
+        return tuple(
+            round(c * alpha + paper[idx] * (1.0 - alpha)) for idx, c in enumerate(rgb)
+        )
 
     if HEX_RE.match(value):
         hex_value = value[1:]
         if len(hex_value) == 3:
-            hex_value = ''.join(ch * 2 for ch in hex_value)
+            hex_value = "".join(ch * 2 for ch in hex_value)
         try:
             rgb = (
                 int(hex_value[0:2], 16),
@@ -134,7 +136,9 @@ def _parse_color(color: str) -> tuple[int, int, int] | None:
         except ValueError:
             return None
 
-    rgb_match = re.match(r"rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)", value, re.IGNORECASE)
+    rgb_match = re.match(
+        r"rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)", value, re.IGNORECASE
+    )
     if rgb_match:
         try:
             return (
@@ -161,7 +165,9 @@ def _relative_luminance(rgb: tuple[int, int, int]) -> float:
     return 0.2126 * r_lin + 0.7152 * g_lin + 0.0722 * b_lin
 
 
-def _contrast_ratio(foreground: tuple[int, int, int], background: tuple[int, int, int]) -> float:
+def _contrast_ratio(
+    foreground: tuple[int, int, int], background: tuple[int, int, int]
+) -> float:
     lum_fg = _relative_luminance(foreground)
     lum_bg = _relative_luminance(background)
     lighter, darker = max(lum_fg, lum_bg), min(lum_fg, lum_bg)
@@ -237,18 +243,20 @@ def parse_cells(source: str) -> list[dict]:
                 elif _is_accent(r_ch, g_ch, b_ch):
                     focal = True
 
-        cells.append({
-            "row": row,
-            "col": col,
-            "value": value,
-            "opacity": opacity,
-            "focal": focal,
-            "fill": fill,
-            "x": float(x) if x is not None else None,
-            "y": float(y) if y is not None else None,
-            "width": float(width) if width is not None else None,
-            "height": float(height) if height is not None else None,
-        })
+        cells.append(
+            {
+                "row": row,
+                "col": col,
+                "value": value,
+                "opacity": opacity,
+                "focal": focal,
+                "fill": fill,
+                "x": float(x) if x is not None else None,
+                "y": float(y) if y is not None else None,
+                "width": float(width) if width is not None else None,
+                "height": float(height) if height is not None else None,
+            }
+        )
 
     return cells
 
@@ -265,12 +273,14 @@ def parse_text_labels(source: str) -> list[dict]:
         x = _attr(attrs, "x")
         y = _attr(attrs, "y")
         text_content = re.search(r">(.*?)</text>", m.group(0), re.DOTALL)
-        texts.append({
-            "fill": fill,
-            "x": float(x) if x is not None else None,
-            "y": float(y) if y is not None else None,
-            "text": text_content.group(1).strip() if text_content else "",
-        })
+        texts.append(
+            {
+                "fill": fill,
+                "x": float(x) if x is not None else None,
+                "y": float(y) if y is not None else None,
+                "text": text_content.group(1).strip() if text_content else "",
+            }
+        )
     return texts
 
 
@@ -365,9 +375,7 @@ def check_file(path: Path) -> list[str]:
 
     # Invariant 2: monotone fill ramp for non-focal cells.
     if non_focal:
-        opaque_missing = [
-            c for c in non_focal if c["opacity"] is None
-        ]
+        opaque_missing = [c for c in non_focal if c["opacity"] is None]
         if opaque_missing:
             for c in opaque_missing:
                 errors.append(

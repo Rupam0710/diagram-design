@@ -106,7 +106,9 @@ def case(
     describe: str,
 ) -> None:
     if source == original and not expect_pass:
-        failures.append(f"could not build the {name!r} fixture (anchor not found in source)")
+        failures.append(
+            f"could not build the {name!r} fixture (anchor not found in source)"
+        )
         return
     path = write(directory, name, source)
     code, output = run(path)
@@ -143,19 +145,25 @@ def main() -> int:
             'data-focal="true" fill="rgba(235,108,54,0.85)"',
         )
         case(
-            failures, d, "N1-two-focal.html",
+            failures,
+            d,
+            "N1-two-focal.html",
             original.replace(FIRST_NONFOCAL, second_focal),
-            original, False,
+            original,
+            False,
             "two data-focal cells",
         )
 
         # N2: missing cell (remove one complete <rect> pair — underlay + data)
         # We remove just the data rect for billing·S6; the grid becomes 29 cells.
-        missing_rect = f'<rect {MISSING_TARGET}/>'
+        missing_rect = f"<rect {MISSING_TARGET}/>"
         case(
-            failures, d, "N2-missing-cell.html",
+            failures,
+            d,
+            "N2-missing-cell.html",
             original.replace(missing_rect, ""),
-            original, False,
+            original,
+            False,
             "missing (billing, S6) cell",
         )
 
@@ -163,9 +171,12 @@ def main() -> int:
         # so we have two (billing, S5) cells.
         duplicate = MISSING_TARGET.replace('data-col="S6"', 'data-col="S5"')
         case(
-            failures, d, "N3-duplicate-cell.html",
+            failures,
+            d,
+            "N3-duplicate-cell.html",
             original.replace(MISSING_TARGET, duplicate),
-            original, False,
+            original,
+            False,
             "duplicate (billing, S5) cell",
         )
 
@@ -179,8 +190,12 @@ def main() -> int:
             LOW_VALUE_CELL.replace("0.07", "0.65"),
         )
         case(
-            failures, d, "N4-non-monotone.html",
-            inverted, original, False,
+            failures,
+            d,
+            "N4-non-monotone.html",
+            inverted,
+            original,
+            False,
             "non-monotone opacity (value=9 gets opacity=0.07, value=1 gets 0.65)",
         )
 
@@ -190,16 +205,24 @@ def main() -> int:
             FIVE_VALUE_CELL.replace("0.36", "0.55"),
         )
         case(
-            failures, d, "N5-inconsistent-opacity.html",
-            inconsistent, original, False,
+            failures,
+            d,
+            "N5-inconsistent-opacity.html",
+            inconsistent,
+            original,
+            False,
             "same value=5 with two different opacities (0.36 vs 0.55)",
         )
 
         # N6: no parseable cells — strip data-row from every rect.
         no_cells = re.sub(r'\s+data-row="[^"]*"', "", original)
         case(
-            failures, d, "N6-no-cells.html",
-            no_cells, original, False,
+            failures,
+            d,
+            "N6-no-cells.html",
+            no_cells,
+            original,
+            False,
             "no parseable heatmap cells",
         )
 
@@ -210,8 +233,12 @@ def main() -> int:
             1,  # only the first occurrence
         )
         case(
-            failures, d, "N7-no-rgba-fill.html",
-            no_rgba, original, False,
+            failures,
+            d,
+            "N7-no-rgba-fill.html",
+            no_rgba,
+            original,
+            False,
             "non-focal cell with no rgba fill",
         )
 
@@ -221,17 +248,25 @@ def main() -> int:
             "svg { display: block; width: 100%; height: auto; max-width: 100%; transform: scale(1); }",
         )
         case(
-            failures, d, "N8-css-transform.html",
-            css_transform, original, False,
+            failures,
+            d,
+            "N8-css-transform.html",
+            css_transform,
+            original,
+            False,
             "CSS transform property in <style>",
         )
 
         # N9: missing axis declarations.
-        no_axis_labels = re.sub(r'\s+data-row-label="[^"]+"', '', original)
-        no_axis_labels = re.sub(r'\s+data-col="[^"]+"', '', no_axis_labels)
+        no_axis_labels = re.sub(r'\s+data-row-label="[^"]+"', "", original)
+        no_axis_labels = re.sub(r'\s+data-col="[^"]+"', "", no_axis_labels)
         case(
-            failures, d, "N9-missing-axis-labels.html",
-            no_axis_labels, original, False,
+            failures,
+            d,
+            "N9-missing-axis-labels.html",
+            no_axis_labels,
+            original,
+            False,
             "missing axis declarations",
         )
 
@@ -242,8 +277,12 @@ def main() -> int:
             1,
         )
         case(
-            failures, d, "N10-undeclared-row-col.html",
-            undeclared_cell, original, False,
+            failures,
+            d,
+            "N10-undeclared-row-col.html",
+            undeclared_cell,
+            original,
+            False,
             "undeclared row/column values",
         )
 
@@ -254,8 +293,12 @@ def main() -> int:
             1,
         )
         case(
-            failures, d, "N11-focal-text-contrast.html",
-            bad_focal_text, original, False,
+            failures,
+            d,
+            "N11-focal-text-contrast.html",
+            bad_focal_text,
+            original,
+            False,
             "focal value text fails 4.5:1 contrast on accent fill",
         )
 

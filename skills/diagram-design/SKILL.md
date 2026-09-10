@@ -10,7 +10,7 @@ metadata:
 
 Create visual diagrams as self-contained HTML files with inline SVG and CSS, following an opinionated editorial design system.
 
-Forty visual types. Semantic patterns describe behavior independently; type references describe layout. Details load from `references/` only when selected.
+Forty-one visual types. Semantic patterns describe behavior independently; type references describe layout. Details load from `references/` only when selected.
 
 ---
 
@@ -49,7 +49,7 @@ Applied to schematics:
 
 ## 2. When to Use
 
-Use for any of the 40 visual types (§3) when a reader will learn more from a visual than from prose, a table, or a bulleted list.
+Use for any of the 41 visual types (§3) when a reader will learn more from a visual than from prose, a table, or a bulleted list.
 
 **Don't use for:**
 
@@ -79,7 +79,7 @@ When behavior, state, enforcement, or risk carries the meaning, first load [`ref
 
 The pattern owns semantic primitives and its tighter budget; the type owns layout grammar. Use [`references/animation.md`](references/animation.md) only when motion is requested or materially clarifies ordered change; static remains the default.
 
-### Visual-type guide (40)
+### Visual-type guide (41)
 
 | If you're showing… | Use | Reference |
 |---|---|---|

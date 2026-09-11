@@ -1,6 +1,6 @@
 ---
 name: diagram-design
-description: Create branded architecture, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, polar chart (polar/radial lollipop), loop/flywheel, nested, tree, org chart, layer stack, Venn, pyramid/funnel, treemap, heatmap, bar, waterfall, line, Gantt and scatter charts, high-level, process, medallion, data flow, DP integration, DP security matrix, Sankey, fishbone, Wardley map, kanban, user journey, deployment, dependency graph, UML class, story map, or database schema diagrams as standalone HTML/SVG/PNG.
+description: Create branded architecture, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, polar chart (polar/radial lollipop), loop/flywheel, nested, tree, org chart, layer stack, Venn, pyramid/funnel, treemap, heatmap, bar, waterfall, line, Gantt and scatter charts, high-level, process, medallion, data flow, DP integration, DP security matrix, Sankey, fishbone, Wardley map, kanban, user journey, deployment, dependency graph, UML class, story map, or database schema diagrams as HTML/SVG/PNG, with .drawio and .excalidraw import support.
 license: MIT
 metadata:
   version: "2.6"
@@ -10,7 +10,7 @@ metadata:
 
 Create diagrams as self-contained HTML files with inline SVG and an editorial design system.
 
-Forty-one visual types. Semantic patterns describe behavior; type references describe layout. Details load from `references/` only when selected.
+Forty-one visual types. Semantic patterns describe behavior; type references describe layout.
 
 ---
 

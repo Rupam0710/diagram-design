@@ -43,6 +43,7 @@ HIGH_LEVEL_REFERENCE = ROOT / "skills/diagram-design/references/type-high-level.
 ONBOARDING_REFERENCE = ROOT / "skills/diagram-design/references/onboarding.md"
 LINE_DARK_EXAMPLE = ROOT / "skills/diagram-design/assets/example-line-dark.html"
 VARIANTS = ("", "-dark", "-full")
+VISUAL_TYPE_COUNT = 41
 AGENT_SKILLS_DESCRIPTION_MAX = 1024
 # Types whose selection-table name differs from its description vocabulary.
 DESCRIPTION_ALIASES = {
@@ -161,9 +162,10 @@ def check_description(errors: list[str]) -> None:
         errors.append("SKILL.md frontmatter description is missing")
         return
     types = selection_table_types(markdown)
-    if not types:
-        errors.append("SKILL.md selection table has no visual types")
-        return
+    if len(types) != VISUAL_TYPE_COUNT:
+        errors.append(
+            f"expected {VISUAL_TYPE_COUNT} visual types in the selection table; found {len(types)}"
+        )
     for name in types:
         key = normalized(name)
         key = DESCRIPTION_ALIASES.get(key, key)

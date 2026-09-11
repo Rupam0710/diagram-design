@@ -16,7 +16,7 @@
       "source": "skills/diagram-design/assets/example-architecture.html",
       "screenshot": "docs/screenshots/architecture.png",
       "source_sha256": "03716fdb0a4ad641c30a5267b14a4c573d699f0f31ab3d8a0ba4e2b74ad56177",
-      "screenshot_sha256": "6b0396da9145fb7ac48c587634e757109868d34733f528d355922675cafceb19",
+      "screenshot_sha256": "2258aef552e8e83aa9936ab4ca2b58fbee76fdb742cc4f68ce6499785b80f614",
       "width": 2400,
       "height": 1154
     },
@@ -25,7 +25,7 @@
       "source": "skills/diagram-design/assets/example-it-state.html",
       "screenshot": "docs/screenshots/it-state.png",
       "source_sha256": "59103bffa775b744828643e361b71f4b80e5ef8a0042abe9ce65c81e3d5dd21e",
-      "screenshot_sha256": "f88588aa2a935dae9313b418d0c0988650a50ac09d23e669c9a470b99c79b9aa",
+      "screenshot_sha256": "e8cd7d4453118bfd10bd3dd875703d673c5f9eaef38d9c9fcdceca38e05ed428",
       "width": 2400,
       "height": 1252
     },
@@ -34,7 +34,7 @@
       "source": "skills/diagram-design/assets/example-flowchart.html",
       "screenshot": "docs/screenshots/flowchart.png",
       "source_sha256": "ba0a39df57d5fd4beccebeb51d62028b420371b30793b2658d308df04d571ff3",
-      "screenshot_sha256": "384d0ff9735debee40e8f69bc48c301b45cdda28e05d92ecafb06d0bd5249db5",
+      "screenshot_sha256": "47c84d9f89a4e60ad131b05b0619e356894052d0477a8b3b024d56e5bd91b517",
       "width": 2400,
       "height": 1442
     },
@@ -43,7 +43,7 @@
       "source": "skills/diagram-design/assets/example-sequence.html",
       "screenshot": "docs/screenshots/sequence.png",
       "source_sha256": "12dcedc98c28d15f7a455f1266c8d8bd93bebe1ed8f352d89bc20703eaa00fad",
-      "screenshot_sha256": "e2f02481bba720096e090c182e5f693e0ab4933f602e85b35d78e07ab8b625ac",
+      "screenshot_sha256": "224bc43edef8c8ebe9260ad38f292bdc6efaf45cb3fe57be64ca2704cc58b2c2",
       "width": 2400,
       "height": 1402
     },
@@ -52,7 +52,7 @@
       "source": "skills/diagram-design/assets/example-state.html",
       "screenshot": "docs/screenshots/state.png",
       "source_sha256": "75521144ce5aaf477096f355e86ae2d3301eb136391a6bd0702a844a8fe7ce30",
-      "screenshot_sha256": "f5ab3bbee9465297ff77653d511ad5fcc9e806882a025a28823bfd253b8ad519",
+      "screenshot_sha256": "60cfc8e2e67bbae841dad46280de7fe30425789cbd8ec1d776c0e7ed3bdc0871",
       "width": 2400,
       "height": 1106
     },
@@ -61,7 +61,7 @@
       "source": "skills/diagram-design/assets/example-er.html",
       "screenshot": "docs/screenshots/er.png",
       "source_sha256": "aee470dcf37af317f14d21cd9420f6bcb1b65f0fb0047483a42b8afc0cab2774",
-      "screenshot_sha256": "f2a6567a509fa46df507e77e399f2c3c61a2bc86bd52a6ba3403554aa1f9facb",
+      "screenshot_sha256": "8ce5d595238c8adf710a4c36bb2def7f2488dc88a1afb5ed3e73b0f9dc0f565f",
       "width": 2400,
       "height": 1154
     },
@@ -70,7 +70,7 @@
       "source": "skills/diagram-design/assets/example-timeline.html",
       "screenshot": "docs/screenshots/timeline.png",
       "source_sha256": "1a58e3824eb2bb89ff6e57439b61c38d6e4c08b187143436f50108d8e60bfc45",
-      "screenshot_sha256": "2149a10c192c8baa71a632a578f4225f45e76c5b26b6c5b430ca4523eda92cf0",
+      "screenshot_sha256": "c2da6df558afa9e94ad134348729533b9726836398576ad595795d1abf9e767d",
       "width": 2400,
       "height": 1010
     },
@@ -79,7 +79,7 @@
       "source": "skills/diagram-design/assets/example-swimlane.html",
       "screenshot": "docs/screenshots/swimlane.png",
       "source_sha256": "75fc463ad3282dd0faaa4328c6b07f7e853184eeb1edcff2add8f7ed1876ab3b",
-      "screenshot_sha256": "240b1c1296cadb41c352b1ff17f9fcbb49acab03c0372daa46a15b8589625a8f",
+      "screenshot_sha256": "562c47b77f177732aa0e5fffe2ce32426c121b4e98fa28f9f482aba1d73dba38",
       "width": 2400,
       "height": 1154
     },
@@ -88,7 +88,7 @@
       "source": "skills/diagram-design/assets/example-quadrant.html",
       "screenshot": "docs/screenshots/quadrant.png",
       "source_sha256": "a147cc85f78958da824d53d226067bff687f3e35a64601394c3075f55c675648",
-      "screenshot_sha256": "473564a2d652f38ab9a62c5670b1024654238437324d3b9023f4526a1f9cd1e5",
+      "screenshot_sha256": "c8235b122853a2ab32c981c849c2df3e813435fd34cefc776f5e4cca55b2c8b4",
       "width": 2400,
       "height": 1202
     },
@@ -97,7 +97,7 @@
       "source": "skills/diagram-design/assets/example-radar.html",
       "screenshot": "docs/screenshots/radar.png",
       "source_sha256": "767b6a52116665a75b5895c1bde6d96a6a3277449229ff7e21b33afff9b9fcdf",
-      "screenshot_sha256": "16ed4cc534e67fdbf651011065eb12d392c350ac044203b80a6fe923cf76b889",
+      "screenshot_sha256": "4bd26ecc002557e9063a65e1f374bcb8cc5fd05d59078788c2edb07582271326",
       "width": 2400,
       "height": 1202
     },
@@ -106,16 +106,16 @@
       "source": "skills/diagram-design/assets/example-polar.html",
       "screenshot": "docs/screenshots/polar.png",
       "source_sha256": "596e2042f18044ef1fa2c2eb849f39fa5c7767b2a17e272617ebd27e10bc86b1",
-      "screenshot_sha256": "11b95afc5ecb2abaa82a2bc21081e1cf544b38a233c623ba2d2b4d21376ace08",
+      "screenshot_sha256": "a1dd1d4cb38db2217759c5d256cc56d832acc4f3077f090cc8691d6e4f82ef31",
       "width": 2400,
-      "height": 1250
+      "height": 1202
     },
     {
       "slug": "loop",
       "source": "skills/diagram-design/assets/example-loop.html",
       "screenshot": "docs/screenshots/loop.png",
       "source_sha256": "b5d0e37b14614ba95d95cdbc5ecdfb84c6c03d7cf664124e029cecb97af340bc",
-      "screenshot_sha256": "c8b65a13408fe873010764c449e409ca7840aac2a010f2be3e0dce7655e8985d",
+      "screenshot_sha256": "83461f3b0fc9c42319cac54a09ee0b3745987327f72095c1aba1209a4a8d269f",
       "width": 2400,
       "height": 1570
     },
@@ -124,7 +124,7 @@
       "source": "skills/diagram-design/assets/example-nested.html",
       "screenshot": "docs/screenshots/nested.png",
       "source_sha256": "17648e5a26604bf678d7cd256ec0d84a54f7f2c6920fb56c030226e6ffc6557a",
-      "screenshot_sha256": "9c81f18335491ab5b6da364b9e31efd219d2b7e9dcc069f3430108f88b6b1801",
+      "screenshot_sha256": "7199d6871a0aab4377af0002a42c3dc9daee9e869f1131493ecf6e17a5a1cac0",
       "width": 2400,
       "height": 1202
     },
@@ -133,7 +133,7 @@
       "source": "skills/diagram-design/assets/example-tree.html",
       "screenshot": "docs/screenshots/tree.png",
       "source_sha256": "5de9151661ad9e1b21809d58494390472cdd82ca1ef1ddcde88b6f14e667afcd",
-      "screenshot_sha256": "f87afa1421bd38793efb1e4a1cd2d770982222b664283eeb46fbf531633eea45",
+      "screenshot_sha256": "7703d9c26e64350d79dda9c82dc1c5bdf4257251e89091697154193cc2634818",
       "width": 2400,
       "height": 1154
     },
@@ -142,7 +142,7 @@
       "source": "skills/diagram-design/assets/example-org-chart.html",
       "screenshot": "docs/screenshots/org-chart.png",
       "source_sha256": "8c4e95ee52d597f28743673ea11f01ecfcf1a230d6f3dfb6d5ad641b770af46c",
-      "screenshot_sha256": "54ed3b1d3893b58b8f85daee28fba430b9589f2deba03445d3214316db74c7d5",
+      "screenshot_sha256": "3e53f9f739b2bde2ed5c5715fc677f8c363e888bd2041bcba40b0f4361bcfd19",
       "width": 2360,
       "height": 1408
     },
@@ -151,7 +151,7 @@
       "source": "skills/diagram-design/assets/example-layers.html",
       "screenshot": "docs/screenshots/layers.png",
       "source_sha256": "196f3cd9866d64da9e04323f258534b1a51d1116140c0db2c8e330adb516a809",
-      "screenshot_sha256": "bb8d99c0bf9062b8125a975d1a91014f59e2da316ca961abdf70f142f896970a",
+      "screenshot_sha256": "74f5708645ba4a30cb65f8d6f2ae997ab6229140f3db7384aaf8ade9ada46cfe",
       "width": 2400,
       "height": 1202
     },
@@ -160,7 +160,7 @@
       "source": "skills/diagram-design/assets/example-venn.html",
       "screenshot": "docs/screenshots/venn.png",
       "source_sha256": "86d763a94bc20fb3038cb00b9ef0fedd1e00cd8009df50852eac77d92e3965da",
-      "screenshot_sha256": "e41ea0af8f0b5fea261b270e4ed6e7399f07c0aa915364d7431c8a0140f97648",
+      "screenshot_sha256": "36c6bd3ada49450efae5199f677ab7c3a28c09c829d4b7faac1fcdedb5ef5a5d",
       "width": 2400,
       "height": 1154
     },
@@ -169,7 +169,7 @@
       "source": "skills/diagram-design/assets/example-pyramid.html",
       "screenshot": "docs/screenshots/pyramid.png",
       "source_sha256": "d12cf7c4c921f3bbd66026af9ed947ff23acdcf414a4309b59c173377d9bdd80",
-      "screenshot_sha256": "9d391575e0cb8aa185d086dda6d3c80ecf454407c1ead60da8ec70b9826b9ffa",
+      "screenshot_sha256": "69cc3ab86ff9feb43fb0ef57f1a2063ad76723966555e2309766c8aee11e4834",
       "width": 2400,
       "height": 1202
     },
@@ -178,7 +178,7 @@
       "source": "skills/diagram-design/assets/example-bar.html",
       "screenshot": "docs/screenshots/bar.png",
       "source_sha256": "1bbd708cdca419c137160056ed9862532a3402ba65d9335bae1be0aef90c7abb",
-      "screenshot_sha256": "a4cb422ac9a30d297e7b4b9d8e8cdea06b2bd5cc3f264392109200ec275852aa",
+      "screenshot_sha256": "80b5373404a6fc2d8163edee06a6b37a5737364968be0d3b010c0e7103355173",
       "width": 2400,
       "height": 1202
     },
@@ -214,7 +214,7 @@
       "source": "skills/diagram-design/assets/example-line.html",
       "screenshot": "docs/screenshots/line.png",
       "source_sha256": "83f5e305d6ce509b25371db6f6e73fa6f3982b7a8dbe09451091c0a15f3b1d90",
-      "screenshot_sha256": "7089601c73c5f893038e95cb57b6c640f844366ee7db50ed0b6a846c267cd301",
+      "screenshot_sha256": "411caacff9cd215ec7a9e9ca03d1808467ba1b95288d9cfbd64aeba83ca57f28",
       "width": 2400,
       "height": 1202
     },
@@ -223,7 +223,7 @@
       "source": "skills/diagram-design/assets/example-gantt.html",
       "screenshot": "docs/screenshots/gantt.png",
       "source_sha256": "607745921006b312ab710c3166036aebeb31a2b7cd40df36713a850a28cb73f3",
-      "screenshot_sha256": "26699c38d642c5ee27bc5ed71e8dba43eb2bf3f1ea8941c2228ce11caeaddff7",
+      "screenshot_sha256": "d4dbac5e12e4e93a203908085e3aba0581ba7a895e222480b22570dca1ef0ffd",
       "width": 2400,
       "height": 1202
     },
@@ -232,7 +232,7 @@
       "source": "skills/diagram-design/assets/example-scatter.html",
       "screenshot": "docs/screenshots/scatter.png",
       "source_sha256": "576e0061f65b1885cf5fccb794c2827b19fbea66cc14e8284f3fa075ef755d06",
-      "screenshot_sha256": "5be710125a8e70689d8d074848d912258c99e28a86ddedefdf83bc1d0da19400",
+      "screenshot_sha256": "a1524da60146ac78039b45aca7d39bef42b49e34d295858729d6fa45c636f177",
       "width": 2400,
       "height": 1202
     },
@@ -241,7 +241,7 @@
       "source": "skills/diagram-design/assets/example-high-level.html",
       "screenshot": "docs/screenshots/high-level.png",
       "source_sha256": "33789942cb06be5228ffa6e450602d1f7c9344b7d263fa2674b7ba5e6dd7e788",
-      "screenshot_sha256": "c55f60090819f12ec10ee4d968bc7aa9041bc425de65f9558acaf82b2e76d092",
+      "screenshot_sha256": "afe822249fbbb601657edc468d5572d2c4a6acc8cbef4ea41771d42d13e3b75e",
       "width": 2400,
       "height": 1298
     },
@@ -250,7 +250,7 @@
       "source": "skills/diagram-design/assets/example-process.html",
       "screenshot": "docs/screenshots/process.png",
       "source_sha256": "50ca0b9e6a3e9f5ba8102ff3c6fb87b6a66b1d59f272777b72a97639d4fe2375",
-      "screenshot_sha256": "7e4c48809b5aba2075362aa504711841574e2a18ac593be3c66f22fc57837b97",
+      "screenshot_sha256": "70b6756e5d692c273d2e394f212a2e117148cb899cf7d5ae2f6db4355d6cf022",
       "width": 2240,
       "height": 920
     },
@@ -259,7 +259,7 @@
       "source": "skills/diagram-design/assets/example-medallion.html",
       "screenshot": "docs/screenshots/medallion.png",
       "source_sha256": "e88a5b1f1f67a7bf6ad83c5144a7f79973a732f68972ba648ec81968579032eb",
-      "screenshot_sha256": "28e1264c18784702dc32bc97c3a8e8fc1f85a7646317d2fbd9d6c000cee9c1e6",
+      "screenshot_sha256": "811dbce44a7bf9b7bbcdd0d3ea36389c83e23b49f81516e939f13661ac3e5ef4",
       "width": 2400,
       "height": 1266
     },
@@ -268,7 +268,7 @@
       "source": "skills/diagram-design/assets/example-data-flow.html",
       "screenshot": "docs/screenshots/data-flow.png",
       "source_sha256": "511788f809b9d674e2f92568955e5fc0c5f5f7a3960eaa0049e136ec93957add",
-      "screenshot_sha256": "63216a58b72d9e0b24b38244cf93100705f6bd155e8b6a7b52841735acc15e32",
+      "screenshot_sha256": "25d71f2662e4383f8b2167ed807a4232fcfc24b8188168152a3ea879c2751954",
       "width": 2400,
       "height": 1176
     },
@@ -277,7 +277,7 @@
       "source": "skills/diagram-design/assets/example-dp-integration.html",
       "screenshot": "docs/screenshots/dp-integration.png",
       "source_sha256": "929b6aaefa9a362d4cd18fb1801a57f28d32aa8dd78ba577375a11926ee2cc94",
-      "screenshot_sha256": "373d4f6a99efaae4607ecbf58b4e6be4c1685832df87ae439ec3395d8adbdaff",
+      "screenshot_sha256": "abb41e56d502d7d77cb1dbe46bfb5b612696bdb26c38ff347c81f581c2f0ed2a",
       "width": 2400,
       "height": 1330
     },
@@ -286,7 +286,7 @@
       "source": "skills/diagram-design/assets/example-dp-security-matrix.html",
       "screenshot": "docs/screenshots/dp-security-matrix.png",
       "source_sha256": "88d7a3fb9788300082274924f1f95dfd0a5a8b3bfca3fcd91b424cc8caa50044",
-      "screenshot_sha256": "f65dd351db45e8602d22d410692526704c3e304a886335534d0c19a881651132",
+      "screenshot_sha256": "a8f054d9562eab854fcc1ea554605f80d56a8a3334d491108834b1a82d03a6f7",
       "width": 2400,
       "height": 888
     },
@@ -295,7 +295,7 @@
       "source": "skills/diagram-design/assets/example-sankey.html",
       "screenshot": "docs/screenshots/sankey.png",
       "source_sha256": "f9196488b04763405fe56a56ed201630ce63aa86c96dcf8ba652d3927093707c",
-      "screenshot_sha256": "e464bde070262a3a2b3a68ddda780fb60900d077eb6beeb941a1f65c08ef15d3",
+      "screenshot_sha256": "3acec7a81cbdc7d8bb5eb49caf4bb30ec594dbdd165b02c825293fe8edf6b52c",
       "width": 2400,
       "height": 1346
     },
@@ -304,7 +304,7 @@
       "source": "skills/diagram-design/assets/example-fishbone.html",
       "screenshot": "docs/screenshots/fishbone.png",
       "source_sha256": "cd7079857240a9f6228804d3492af0add2eb36343798c9e0ef90657f2a246d04",
-      "screenshot_sha256": "27dc548a0e44e9f0baf925665e88632ec3d94e8198a22c0ce6a8ce4dd03a3317",
+      "screenshot_sha256": "c634bb13367a2299d862dc84f0046017d5067ab64498784024a220576b473f33",
       "width": 2640,
       "height": 1072
     },
@@ -313,7 +313,7 @@
       "source": "skills/diagram-design/assets/example-wardley.html",
       "screenshot": "docs/screenshots/wardley.png",
       "source_sha256": "b0ffc8f5bde65a8d77d863f22cd6c0d0211490c059dbcb503798851d1413860a",
-      "screenshot_sha256": "6da7ced4b2e6e78125828ee92d8471df6c8be4689836769d1e84713bafec739d",
+      "screenshot_sha256": "22466ff1159465a9e127b09932ef304b88a6d6c1f10b05554592e307abaa9a75",
       "width": 2400,
       "height": 1106
     },
@@ -322,7 +322,7 @@
       "source": "skills/diagram-design/assets/example-kanban.html",
       "screenshot": "docs/screenshots/kanban.png",
       "source_sha256": "3b19fb185019e0e341496de095bb1d92bd1fe4705c1502562ef47cb88329b2bb",
-      "screenshot_sha256": "79e1317b66f94c9079309e838d6fba4725a4c16bfb60b41b6f65a76775705fb9",
+      "screenshot_sha256": "509af93dd2441e1e359c6755cf9b79cba9ec31c9b4b13f06979acf1b0b24ae95",
       "width": 2400,
       "height": 946
     },
@@ -331,7 +331,7 @@
       "source": "skills/diagram-design/assets/example-journey.html",
       "screenshot": "docs/screenshots/journey.png",
       "source_sha256": "b01e32ff87d63fddf6d1db47155906dd624acc13327856269114f760afc754f0",
-      "screenshot_sha256": "468f260a04c10c38790ff44b5d8ac853be2a501b49b80126d86817f55348c7d7",
+      "screenshot_sha256": "26cc8bb0d2aec927046dc128c06b7a93b51ab131e815dda60ba684d6c177de81",
       "width": 2560,
       "height": 1110
     },
@@ -340,7 +340,7 @@
       "source": "skills/diagram-design/assets/example-deployment.html",
       "screenshot": "docs/screenshots/deployment.png",
       "source_sha256": "6e28f0eee98dd728bfa6b5210b1885caf2b39992fdd06a680e37bbc8863e89b2",
-      "screenshot_sha256": "aa44206b0d48f851f31a4bd80b13169dbdcc89ddc32bc9a5a0d360600c1e37f0",
+      "screenshot_sha256": "cb216a1a8dd18ee31493b4d19ec29051022075ae227a4c64e5de7b5ef86a4e25",
       "width": 2400,
       "height": 962
     },
@@ -349,7 +349,7 @@
       "source": "skills/diagram-design/assets/example-dependency.html",
       "screenshot": "docs/screenshots/dependency.png",
       "source_sha256": "973f7b5f5ac1746bb018e9ea8de9f6853b5f14ff41173e64abcf9855ea5f353b",
-      "screenshot_sha256": "a4e30e3c45d0e3d7f23c4762cd7507e74d618d3821bfad96f5964f9d19b0ce37",
+      "screenshot_sha256": "817d52acd84d5dbfce6f8b3806ee151afbe12379f681ab3a87f203c85546420d",
       "width": 2400,
       "height": 1442
     },
@@ -358,7 +358,7 @@
       "source": "skills/diagram-design/assets/example-uml-class.html",
       "screenshot": "docs/screenshots/uml-class.png",
       "source_sha256": "c6c353f4d53c476fc3530f20d09cdb9d4b47a2bd22d0f3c56c807732534a685d",
-      "screenshot_sha256": "0c925632e16d5ca045da70570cea176f5a53a6183596b06984593cf8d4d6e9d6",
+      "screenshot_sha256": "27990fb2b79df122bfff3c6f06e9a4898d59b2d285f65f37145949835149037c",
       "width": 2480,
       "height": 1682
     },
@@ -367,7 +367,7 @@
       "source": "skills/diagram-design/assets/example-story-map.html",
       "screenshot": "docs/screenshots/story-map.png",
       "source_sha256": "40f737ca1c2a9f46cd8a3ad1a377faabc1adc546a410ff8395e6622b4e773da1",
-      "screenshot_sha256": "0fabb02b3762da1cef8cca1a221b1e873805400f43890ac4060e9b75c3ef2c0f",
+      "screenshot_sha256": "2adaaf914b772a81743fd2600d0c44b96224d06dfeeac1da83f282227d6e541a",
       "width": 2400,
       "height": 1258
     },
@@ -376,7 +376,7 @@
       "source": "skills/diagram-design/assets/example-db-schema.html",
       "screenshot": "docs/screenshots/db-schema.png",
       "source_sha256": "58d473906c57670fecee29bc55377df5b433549445962204412ebd2c081b76db",
-      "screenshot_sha256": "c86853b6072b9cf529cd3f5edfe825d70a4c02a2c6025cf1e63bf8f2a8e8bd85",
+      "screenshot_sha256": "939061c701f7bb70aa1b5f7ee1fe2da3a68b3b8edc4822cd9dcb7586acd7a2d6",
       "width": 2480,
       "height": 1288
     }

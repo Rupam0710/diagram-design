@@ -21,6 +21,7 @@ PATTERNS = ROOT / "skills/diagram-design/references/semantic-patterns.md"
 ANIMATION = ROOT / "skills/diagram-design/references/animation.md"
 EXAMPLE = ROOT / "skills/diagram-design/assets/example-policy-trace-animated.html"
 MAX_SKILL_BYTES = 40_000
+VISUAL_TYPE_COUNT = 41
 
 PATTERN_NAMES = (
     "Fan-in queue / bottleneck",
@@ -185,35 +186,29 @@ def verify_markdown() -> list[str]:
     patterns = PATTERNS.read_text(encoding="utf-8")
     animation = ANIMATION.read_text(encoding="utf-8")
 
-    normalized_skill_bytes = skill.replace("\r\n", "\n").encode("utf-8")
-    if len(normalized_skill_bytes) > MAX_SKILL_BYTES:
+    if len(skill_bytes) > MAX_SKILL_BYTES:
         errors.append(
-            f"SKILL.md exceeds {MAX_SKILL_BYTES} bytes: {len(normalized_skill_bytes)} bytes"
+            f"SKILL.md exceeds {MAX_SKILL_BYTES} bytes: {len(skill_bytes)} bytes"
         )
     if "Selection: semantic pattern, then visual type" not in skill:
         errors.append("SKILL.md must choose semantic pattern before visual type")
     router_position = skill.find("semantic-patterns.md")
-    guide_heading_match = re.search(r"^### Visual-type guide \((\d+)\)\s*$", skill, re.MULTILINE)
-    guide_position = guide_heading_match.start() if guide_heading_match else -1
-    declared_visual_type_count = int(guide_heading_match.group(1)) if guide_heading_match else None
+    guide_heading = f"### Visual-type guide ({VISUAL_TYPE_COUNT})"
+    guide_position = skill.find(guide_heading)
     if router_position < 0:
         errors.append("SKILL.md must link to semantic-patterns.md")
     if guide_position < 0:
-        errors.append("SKILL.md must contain the visual-type guide heading with a row count")
+        errors.append(
+            f"SKILL.md must contain the {VISUAL_TYPE_COUNT}-row visual-type guide"
+        )
     if router_position >= 0 and guide_position >= 0 and router_position > guide_position:
         errors.append("semantic-pattern router must precede the visual-type guide")
 
-    visual_guide_heading = (
-        skill[guide_position : skill.find("\n", guide_position)]
-        if guide_position >= 0
-        else ""
-    )
-    visual_guide = section(skill, visual_guide_heading, "Rules of thumb:")
+    visual_guide = section(skill, guide_heading, "Rules of thumb:")
     visual_rows = re.findall(r"^\|.*\[type-[^)]+\.md\]", visual_guide, re.MULTILINE)
-    if declared_visual_type_count is not None and len(visual_rows) != declared_visual_type_count:
+    if len(visual_rows) != VISUAL_TYPE_COUNT:
         errors.append(
-            "visual-type guide must preserve "
-            f"{declared_visual_type_count} rows; found {len(visual_rows)}"
+            f"visual-type guide must preserve {VISUAL_TYPE_COUNT} rows; found {len(visual_rows)}"
         )
 
     for index, name in enumerate(PATTERN_NAMES, 1):
@@ -431,15 +426,9 @@ def main() -> int:
             print(f"- {error}")
         return 1
     if not args.example_only:
-        guide_match = re.search(
-            r"^### Visual-type guide \((\d+)\)\s*$",
-            SKILL.read_text(encoding="utf-8"),
-            re.MULTILINE,
-        )
-        visual_type_count = int(guide_match.group(1)) if guide_match else 0
         print(
             f"OK: {len(PATTERN_NAMES)} semantic patterns route independently to the preserved "
-            f"{visual_type_count} visual types"
+            f"{VISUAL_TYPE_COUNT} visual types"
         )
         print("OK: animation modes, primitives, static fallback, and accessibility contract")
     if not args.markdown_only:

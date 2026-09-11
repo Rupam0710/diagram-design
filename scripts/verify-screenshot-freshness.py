@@ -20,9 +20,8 @@ from screenshot_catalog import (
 def main() -> int:
     errors: list[str] = []
     slugs = canonical_slugs()
-    total = len(slugs)
-    if total != len(set(slugs)):
-        errors.append(f"expected unique canonical types; found duplicates across {total} entries")
+    if len(slugs) != 41 or len(slugs) != len(set(slugs)):
+        errors.append(f"expected 41 unique canonical types; found {len(slugs)}")
 
     if not MANIFEST.is_file():
         errors.append("docs/screenshots/manifest.json is missing")
@@ -97,7 +96,7 @@ def main() -> int:
         for error in errors:
             print(f"  - {error}")
         return 1
-    print(f"OK screenshot freshness: {total} canonical sources and PNG digests match")
+    print("OK screenshot freshness: 41 canonical sources and PNG digests match")
     return 0
 
 

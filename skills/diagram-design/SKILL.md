@@ -1,6 +1,6 @@
 ---
 name: diagram-design
-description: Create branded architecture, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, polar chart (polar/radial lollipop), loop/flywheel, nested, tree, org chart, layer stack, Venn, pyramid/funnel, treemap, heatmap, bar, waterfall, line, Gantt and scatter charts, high-level, process, medallion, data flow, DP integration, DP security matrix, Sankey, fishbone, Wardley map, kanban, user journey, deployment, dependency graph, UML class, story map, or database schema diagrams as HTML/SVG/PNG, with .drawio and .excalidraw import support.
+description: Create branded architecture, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, polar chart (polar/radial lollipop), loop/flywheel, nested, tree, org chart, layer stack, Venn, pyramid/funnel, treemap, heatmap, bar, waterfall, line, Gantt and scatter charts, high-level, process, medallion, data flow, DP integration, DP security matrix, Sankey, fishbone, Wardley map, kanban, user journey, deployment, dependency graph, UML class, story map, or database schema diagrams as HTML/SVG/PNG, with .drawio and .excalidraw import support, plus lifecycle phase maps and onboarding guidance.
 license: MIT
 metadata:
   version: "2.6"
@@ -20,7 +20,7 @@ Forty-one visual types. Semantic patterns describe behavior; type references des
 
 Do not silently ship default-skinned diagrams into a branded project.
 
-First check the project root for a `.diagram-design` marker and resolve it per [`references/profiles.md`](references/profiles.md). A valid marker whose profile exists selects that file directly and skips this gate; `profile: default` also skips it. A malformed or missing-profile marker follows the visible failure handling in that reference. Never copy a marker-selected profile over the installed working copy.
+First resolve any project `.diagram-design` marker per [`references/profiles.md`](references/profiles.md); a successfully resolved marker selects its profile and bypasses this gate. That reference owns failures, the protected default, and save behavior.
 
 Open [`references/style-guide.md`](references/style-guide.md) and check the default tokens. If they are still the shipped defaults (paper `#f5f5f5`, ink `#2d3142`, accent `#eb6c36`), **pause and ask the user**:
 
@@ -76,6 +76,7 @@ When behavior, state, enforcement, or risk carries the meaning, first load [`ref
 | Controls grouped by where they are enforced | **Governance / control catalog** → Layer stack |
 | Defenses compensate for prior gaps and residual risk propagates | **Compensating security layers** → Layer stack |
 | Hierarchical, ID-addressable decomposition needing per-block I/O, constraints, and a code link | **Traceable block decomposition** → Tree |
+| One subject progresses through phases, waits, retries, cancellation, and terminal outcomes | **Lifecycle phase map** → State Machine |
 
 The pattern owns semantic primitives and its tighter budget; the type owns layout grammar. Use [`references/animation.md`](references/animation.md) only when motion is requested or materially clarifies ordered change; static remains the default.
 

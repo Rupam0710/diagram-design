@@ -23,6 +23,8 @@ Negative cases (must FAIL):
   N9 — missing axis declarations entirely.
   N10 — undeclared row/column values in the cells.
   N11 — focal value text fails AA contrast against the focal accent fill.
+  N12 — duplicate axis declarations silently shrink the grid vocabulary.
+  N13 — dark focal text is checked against the wrong underlay color.
 
 Usage: python3 scripts/test-verify-heatmap.py
 Exit: 0 all pass, 1 a case failed.
@@ -302,12 +304,45 @@ def main() -> int:
             "focal value text fails 4.5:1 contrast on accent fill",
         )
 
+        # N12: duplicate axis declarations must not quietly shrink the declared grid.
+        duplicate_axis = original.replace(
+            'data-row-label="auth" x="148" y="96" fill="#2d3142" font-size="9" font-family="\'Geist Mono\', monospace" text-anchor="end">auth</text>',
+            'data-row-label="auth" x="148" y="96" fill="#2d3142" font-size="9" font-family="\'Geist Mono\', monospace" text-anchor="end">auth</text>\n'
+            '      <text data-row-label="auth" x="148" y="110" fill="#2d3142" font-size="9" font-family="\'Geist Mono\', monospace" text-anchor="end">auth</text>',
+            1,
+        )
+        case(
+            failures,
+            d,
+            "N12-duplicate-axis-label.html",
+            duplicate_axis,
+            original,
+            False,
+            "duplicate axis label declaration silently shrinks the grid",
+        )
+
+        # N13: dark focal text must be evaluated against the dark background, not paper.
+        dark_bad_focal_text = GOOD_DARK.read_text(encoding="utf-8").replace(
+            'fill="#111111" font-size="10" font-weight="600" font-family="\'Geist\', sans-serif" text-anchor="middle">47%</text>',
+            'fill="#f5f5f5" font-size="10" font-weight="600" font-family="\'Geist\', sans-serif" text-anchor="middle">47%</text>',
+            1,
+        )
+        case(
+            failures,
+            d,
+            "N13-dark-focal-text-contrast.html",
+            dark_bad_focal_text,
+            GOOD_DARK.read_text(encoding="utf-8"),
+            False,
+            "dark focal value text fails 4.5:1 contrast against the actual dark underlay",
+        )
+
     if failures:
         for f in failures:
             print("FAIL:", f, file=sys.stderr)
         return 1
 
-    print(f"OK — {11 + 3} cases ({3} positive, {11} negative), all passed.")
+    print(f"OK — {13 + 3} cases ({3} positive, {13} negative), all passed.")
     return 0
 
 

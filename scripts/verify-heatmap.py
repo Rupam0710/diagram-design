@@ -90,23 +90,28 @@ def _is_accent(r: int, g: int, b: int) -> bool:
     return r >= 200 and g <= 150 and b <= 100
 
 
-def _parse_color(color: str) -> tuple[int, int, int] | None:
+def _parse_color(
+    color: str, underlay: tuple[int, int, int] | None = None
+) -> tuple[int, int, int] | None:
     """Parse a CSS hex or rgb/rgba color into the visible 8-bit RGB components.
 
-    For rgba() values with alpha < 1, blend the color against the canonical paper
-    background (#f5f5f5) to match how the SVG actually renders on screen.
+    For rgba() values with alpha < 1, blend the color against the actual canvas
+    underlay rather than assuming the light paper background. In dark heatmaps, the
+    underlay is the dark paper color (#2d3142), not #f5f5f5.
     """
     value = color.strip()
     if not value:
         return None
 
-    paper = (245, 245, 245)
+    if underlay is None:
+        underlay = (245, 245, 245)
 
     def blend(rgb: tuple[int, int, int], alpha: float) -> tuple[int, int, int]:
         if alpha >= 1.0:
             return rgb
         return tuple(
-            round(c * alpha + paper[idx] * (1.0 - alpha)) for idx, c in enumerate(rgb)
+            round(c * alpha + underlay[idx] * (1.0 - alpha))
+            for idx, c in enumerate(rgb)
         )
 
     if HEX_RE.match(value):
@@ -174,16 +179,19 @@ def _contrast_ratio(
     return (lighter + 0.05) / (darker + 0.05)
 
 
-def parse_axis_labels(source: str) -> tuple[list[str], list[str]]:
-    """Return (declared_rows, declared_cols) from axis-label text elements.
+def parse_axis_labels(source: str) -> tuple[list[str], list[str], set[str], set[str]]:
+    """Return (declared_rows, declared_cols, duplicate_rows, duplicate_cols).
 
     Rows are declared with data-row-label="name" on <text> elements (left gutter).
     Columns are declared with data-col="name" on <text> elements (top header row).
-    The order is preserved so the grid vocabulary is stable even if cells are absent.
+    Duplicate declarations are treated as a verifier failure because they silently
+    shrink the grid vocabulary and make a malformed heatmap pass completeness.
     """
     source_clean = COMMENT_RE.sub("", source)
     declared_rows: list[str] = []
     declared_cols: list[str] = []
+    duplicate_rows: set[str] = set()
+    duplicate_cols: set[str] = set()
     seen_rows: set[str] = set()
     seen_cols: set[str] = set()
 
@@ -191,14 +199,20 @@ def parse_axis_labels(source: str) -> tuple[list[str], list[str]]:
         attrs_str = m.group("attrs")
         row_label = _attr(attrs_str, "data-row-label")
         col_label = _attr(attrs_str, "data-col")
-        if row_label and row_label not in seen_rows:
-            declared_rows.append(row_label)
-            seen_rows.add(row_label)
-        if col_label and col_label not in seen_cols:
-            declared_cols.append(col_label)
-            seen_cols.add(col_label)
+        if row_label:
+            if row_label in seen_rows:
+                duplicate_rows.add(row_label)
+            else:
+                declared_rows.append(row_label)
+                seen_rows.add(row_label)
+        if col_label:
+            if col_label in seen_cols:
+                duplicate_cols.add(col_label)
+            else:
+                declared_cols.append(col_label)
+                seen_cols.add(col_label)
 
-    return declared_rows, declared_cols
+    return declared_rows, declared_cols, duplicate_rows, duplicate_cols
 
 
 def parse_cells(source: str) -> list[dict]:
@@ -325,11 +339,18 @@ def check_file(path: Path) -> list[str]:
     # row/column are outside that vocabulary. Cell-derived fallback is intentionally
     # not allowed here: a malformed heatmap can otherwise pass when a row or column
     # is missing from the label axis but the remaining cells still produce a count.
-    declared_rows, declared_cols = parse_axis_labels(source)
+    declared_rows, declared_cols, duplicate_rows, duplicate_cols = parse_axis_labels(source)
     if not declared_rows or not declared_cols:
         errors.append(
             f"{path.name}: heatmap is missing declared row/column axis labels; "
             "every row and column must be named via data-row-label and data-col"
+        )
+        return errors
+    if duplicate_rows or duplicate_cols:
+        dup_msg = ", ".join(sorted(duplicate_rows | duplicate_cols))
+        errors.append(
+            f"{path.name}: duplicate axis declarations for {dup_msg}; "
+            "repeated data-row-label/data-col entries silently shrink the grid and must be rejected"
         )
         return errors
 
@@ -417,10 +438,26 @@ def check_file(path: Path) -> list[str]:
             prev_opacity = mean_opacity
             prev_val = val
 
-    # Require focal cell value text to maintain WCAG AA against the focal fill.
+    # Require focal cell value text to maintain WCAG AA against the rendered focal fill.
+    # The fill is composited against the heatmap canvas background, which is light paper in
+    # light variants and dark paper in dark variants.
+    canvas_underlay = None
+    for rect_match in RECT_RE.finditer(source):
+        attrs = rect_match.group("attrs")
+        fill = _attr(attrs, "fill")
+        width = _attr(attrs, "width")
+        height = _attr(attrs, "height")
+        if fill and width and height and (width in {"100%", "100"} or height in {"100%", "100"}):
+            parsed = _parse_color(fill)
+            if parsed is not None:
+                canvas_underlay = parsed
+                break
+    if canvas_underlay is None:
+        canvas_underlay = (245, 245, 245)
+
     text_labels = parse_text_labels(source)
     for focal in focal_cells:
-        bg_rgb = _parse_color(focal["fill"])
+        bg_rgb = _parse_color(focal["fill"], canvas_underlay)
         if bg_rgb is None:
             continue
         x0 = focal["x"] if focal["x"] is not None else 0.0

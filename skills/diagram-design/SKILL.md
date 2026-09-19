@@ -106,7 +106,7 @@ The pattern owns semantic primitives and its tighter budget; the type owns layou
 | A start total bridged to an end total by signed contributions (budget bridge, headcount deltas) | **Waterfall** | [type-waterfall.md](references/type-waterfall.md) |
 | Part-of-whole where the relative sizes are the story | **Treemap** | [type-treemap.md](references/type-treemap.md) |
 | Cross-tabulated data; fill encodes value per cell | **Heatmap** | [type-heatmap.md](references/type-heatmap.md) |
-| Trends over time; slopegraph (two states), ridgeline (distribution), bump (rank) variants | **Line chart** | [type-line.md](references/type-line.md) |
+| Continuous trends over time, change between exactly two states (slopegraph), one distribution per series (ridgeline), or rank movement across several snapshots (bump) | **Line chart** | [type-line.md](references/type-line.md) |
 | Tasks and phases on a timeline | **Gantt** | [type-gantt.md](references/type-gantt.md) |
 | Correlation or distribution of two variables; bubble (three variables) and beeswarm (one variable, dot per item) variants | **Scatter plot** | [type-scatter.md](references/type-scatter.md) |
 | End-to-end data stack on a container cluster | **High-Level** | [type-high-level.md](references/type-high-level.md) |

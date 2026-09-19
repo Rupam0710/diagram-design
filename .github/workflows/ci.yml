@@ -282,6 +282,16 @@ jobs:
         id: treemap_tests
         run: python scripts/test-verify-treemap.py
 
+      - name: Verify marimekko width, height and area shares
+        if: always()
+        id: marimekko
+        run: python scripts/verify-marimekko.py --all
+
+      - name: Verify marimekko checker
+        if: always()
+        id: marimekko_tests
+        run: python scripts/test-verify-marimekko.py
+
       - name: Verify dumbbell domain and contrast rules
         if: always()
         id: dumbbell
@@ -300,6 +310,16 @@ jobs:
         if: always()
         id: slopegraph_tests
         run: python scripts/test-verify-slopegraph.py
+
+      - name: Verify streamgraph stack and baseline
+        if: always()
+        id: streamgraph
+        run: python scripts/verify-streamgraph.py --all
+
+      - name: Verify streamgraph checker
+        if: always()
+        id: streamgraph_tests
+        run: python scripts/test-verify-streamgraph.py
 
       - name: Verify sankey flow conservation
         if: always()
@@ -449,10 +469,14 @@ jobs:
           echo "| Block Registry Checker | ${{ steps.block_registry_tests.outcome == 'success' && '✅ Passed' || (steps.block_registry_tests.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Treemap Area & Label Fit | ${{ steps.treemap.outcome == 'success' && '✅ Passed' || (steps.treemap.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Treemap Checker | ${{ steps.treemap_tests.outcome == 'success' && '✅ Passed' || (steps.treemap_tests.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Marimekko Width, Height & Area | ${{ steps.marimekko.outcome == 'success' && '✅ Passed' || (steps.marimekko.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Marimekko Checker | ${{ steps.marimekko_tests.outcome == 'success' && '✅ Passed' || (steps.marimekko_tests.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Dumbbell Domain & Contrast | ${{ steps.dumbbell.outcome == 'success' && '✅ Passed' || (steps.dumbbell.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Dumbbell Checker | ${{ steps.dumbbell_tests.outcome == 'success' && '✅ Passed' || (steps.dumbbell_tests.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Slopegraph Shared Scale | ${{ steps.slopegraph.outcome == 'success' && '✅ Passed' || (steps.slopegraph.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Slopegraph Checker | ${{ steps.slopegraph_tests.outcome == 'success' && '✅ Passed' || (steps.slopegraph_tests.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Streamgraph Stack & Baseline | ${{ steps.streamgraph.outcome == 'success' && '✅ Passed' || (steps.streamgraph.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Streamgraph Checker | ${{ steps.streamgraph_tests.outcome == 'success' && '✅ Passed' || (steps.streamgraph_tests.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Sankey Flow Conservation | ${{ steps.sankey.outcome == 'success' && '✅ Passed' || (steps.sankey.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Sankey Checker | ${{ steps.sankey_tests.outcome == 'success' && '✅ Passed' || (steps.sankey_tests.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Waterfall Running-Total Conservation | ${{ steps.waterfall.outcome == 'success' && '✅ Passed' || (steps.waterfall.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |" >> $GITHUB_STEP_SUMMARY
